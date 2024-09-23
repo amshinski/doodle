@@ -67,7 +67,7 @@ const restartGame = () => {
 	blocks.value.push(new Block());
 
 	Object.assign(blocks.value[0], { x: 0, y: screenHeight, monster: 0, type: 0, powerup: 0, width: screenWidth });
-	Object.assign(blocks.value[1], { x: 300, y: 650, monster: 0, type: 0, powerup: 0 });
+	Object.assign(blocks.value[1], { x: 300, y: 650, monster: 0, type: 0, powerup: 0, difficulty: difficulty.value });
 
 	blockSpawner(blocks.value, screenWidth, difficulty.value, lowestBlock.value);
 
@@ -77,7 +77,7 @@ const restartGame = () => {
 };
 
 const showScore = (ctx) => {
-	let currentDistanceTravelled = Math.round(yDistanceTravelled.value / 10);
+	let currentDistanceTravelled = Math.round(yDistanceTravelled.value / 30);
 
 	if (currentDistanceTravelled > score.value) {
 		score.value = Math.round(currentDistanceTravelled);
@@ -144,7 +144,7 @@ onMounted(() => {
 	blocks.value.push(new Block());
 
 	Object.assign(blocks.value[0], { x: 0, y: screenHeight, monster: 0, type: 0, powerup: 0, width: screenWidth });
-	Object.assign(blocks.value[1], { x: 300, y: 650, monster: 0, type: 0, powerup: 0 });
+	Object.assign(blocks.value[1], { x: 300, y: 650, monster: 0, type: 0, powerup: 0, difficulty: difficulty.value });
 
 	blockSpawner(blocks.value, screenWidth, difficulty.value, lowestBlock.value);
 
