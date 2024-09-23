@@ -55,6 +55,25 @@ const keyup = (e) => {
 	}
 };
 
+const touchStart = (e) => {
+	const touch = e.touches[0];
+	const touchX = touch.clientX;
+	const canvasWidth = canvasRef.value.offsetWidth;
+
+	if (touchX < canvasWidth / 2) {
+		holdingLeftKey.value = true;
+		holdingRightKey.value = false;
+	} else {
+		holdingRightKey.value = true;
+		holdingLeftKey.value = false;
+	}
+};
+
+const touchEnd = () => {
+	holdingLeftKey.value = false;
+	holdingRightKey.value = false;
+};
+
 const restartGame = () => {
 	blocks.value = [];
 	lowestBlock.value = 0;
