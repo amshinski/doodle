@@ -15,6 +15,8 @@ export function blockSpawner(blocks, screenWidth, difficulty, lowestBlock) {
         if (index >= blocks.length) {
             blocks.push(new Block());
 
+            blocks[index - 1].difficulty = difficulty;
+
             if (blocks[index - 1].type === "break") {
                 blocks[index].type = 0;
             } else {
@@ -34,12 +36,14 @@ export function blockSpawner(blocks, screenWidth, difficulty, lowestBlock) {
 
             blocks[index].x = Math.random() * (screenWidth - blocks[index].width);
 
+            let diffMultiplier = difficulty >= 6 ? 6 : difficulty;
+
             if (blocks[index].type === "break" || blocks[index - 1].type === "break") {
-                blocks[index].y = (blocks[index - 1].y) - (((Math.random() * (80 + (difficulty * 25))) + 30) / 2);
+                blocks[index].y = (blocks[index - 1].y) - (((Math.random() * (80 + (diffMultiplier * 18))) + 30) / 2);
             } else if (blocks[index].monster !== 0 || blocks[index - 1].monster !== 0) {
-                blocks[index].y = (blocks[index - 1].y) - ((Math.random() * (80 + (difficulty * 25))) + 50);
+                blocks[index].y = (blocks[index - 1].y) - ((Math.random() * (80 + (diffMultiplier * 18))) + 50);
             } else {
-                blocks[index].y = (blocks[index - 1].y) - ((Math.random() * (80 + (difficulty * 25))) + 30);
+                blocks[index].y = (blocks[index - 1].y) - ((Math.random() * (80 + (diffMultiplier * 18))) + 30);
             }
         }
     }

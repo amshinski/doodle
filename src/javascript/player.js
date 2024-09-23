@@ -3,7 +3,7 @@ import leftPlayerImg from '../assets/leftPlayer.png';
 
 import springShoes from "../assets/powerups/springshoes.png";
 import springShoesRight from "../assets/powerups/springshoesRight.png";
-import brownPlatformGBreak from "../assets/blocks/groudbrown3.png";
+import brownPlatformGBreak from "../assets/blocks/groundbrown3.png";
 import { blockSpawner } from './blockSpawner';
 
 export default class Player {
@@ -68,14 +68,15 @@ export default class Player {
                 if (this.x >= block.x - this.width + 15 && this.x <= block.x + block.width - 15 &&
                     this.y >= block.y - this.height && this.y <= block.y + block.height - this.height) {
                     if (block.type === "break") {
-                        block.isFalling = true;
-                        block.fallSpeed = 5;
+                        block.type = "broken"
+                        block.fadeOut();
 
-                        // let img = new Image();
-                        // img.src = brownPlatformGBreak;
+                        if (block.opacity <= 0) {
+                            blocks.value[index] = null;
+                        }
 
                     } else {
-                        this.jump(block.powerup, block.type);
+                        this.jump(block.powerup, block.type, block, ctx);
                         if (block.monster !== 0) {
                             block.isFalling = true;
                             block.fallSpeed = 5;
@@ -92,9 +93,7 @@ export default class Player {
                     }
                 }
             }
-        });
 
-        blocks.value.forEach((block, index) => {
             if (block.isFalling) {
                 block.y += block.fallSpeed; // Make the block fall down the screen
                 block.fallSpeed += 0.2; // Gradually increase the falling speed to simulate gravity
@@ -115,22 +114,28 @@ export default class Player {
         }
 
         if (lowestBlock.value >= 45) {
-            if (difficulty.value < 6) {
+            if (difficulty.value < 8) {
                 difficulty.value += 1;
             }
             blockSpawner(blocks.value, screenWidth, difficulty.value, lowestBlock.value);
         }
     }
 
-    jump(powerup, type) {
+    jump(powerup, type, block) {
+        if (type === 'broken') {
+            return;
+        }
+
         this.ySpeed = -13.2;
 
         if (powerup === "springBoots") {
             this.springBootsDurability = 6;
+            block.removePowerup();
         }
 
         if (type === 0 && powerup === "spring") {
             this.ySpeed = -20;
+            block.activateSpring();
         }
 
         if (this.springBootsDurability !== 0) {
